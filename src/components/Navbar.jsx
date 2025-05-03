@@ -6,6 +6,7 @@ import { AuthContext } from '../Provider/AuthContext';
 const Navbar = () => {
   const {user, logOut} = use(AuthContext);
   const handleLogOut = () =>{
+   
     logOut()
     .then(() =>{
       alert('LogOut successfully')
@@ -23,7 +24,7 @@ const Navbar = () => {
             <NavLink className={({isActive}) => isActive? 'underline' : ''}  to='/career'>Career</NavLink>
           </div>
           <div className='flex gap-3'>
-            <img src={UserIcon} alt="" />
+            <img className='w-12 h-12 rounded-full' src={user? user.photoURL: UserIcon} alt="" />
            {
             user? <button onClick={handleLogOut} className='text-white btn-primary btn px-8  '>LogOut</button>: <Link to='/auth/login' className='text-white btn-primary btn px-8 '>Login</Link>
            }

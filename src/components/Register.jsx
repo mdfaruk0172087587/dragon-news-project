@@ -1,12 +1,13 @@
 
 import React, { use, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthContext';
 
 const Register = () => {
 
     const [errorMessage, setErrorMassage] = useState('');
-    const {register} = use(AuthContext);
+    const {register, updateUserProfile, setUser} = use(AuthContext);
+    const navigate = useNavigate()
     const handleRegister = (e) =>{
         e.preventDefault();
         const email = e.target.email.value;
@@ -19,6 +20,15 @@ const Register = () => {
         register(email, password)
         .then(result =>{
             console.log(result)
+            // update user profile
+            updateUserProfile({displayName: name, photoURL: photo} )
+            .then(() =>{
+                setUser({...result.user, displayName: name, photoURL: photo})
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+          navigate('/')
         })
         .catch(error=>{
            setErrorMassage(error.code)

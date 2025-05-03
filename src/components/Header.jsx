@@ -8,6 +8,7 @@ const Header = () => {
             <img src={HeaderImage} alt="" />
             <p>Journalism Without Fear or Favour</p>
             <p>{format(new Date(), "EEEE , LLLL  d , yyyy")}</p>
+            
         </div>
     );
 };
