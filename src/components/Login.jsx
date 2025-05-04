@@ -1,14 +1,14 @@
 
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthContext';
-import { use } from 'react';
+import { use, useRef } from 'react';
 
 const Login = () => {
-
-    const {login} = use(AuthContext);
+    const emailRef = useRef();
+    const {login,forgotPassword  } = use(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(location)
+    // console.log(location)
     const handleLogin = (e) =>{
        
         e.preventDefault();
@@ -17,13 +17,28 @@ const Login = () => {
         // login
         login(email, password)
         .then(result => {
-            console.log(result)
+            // console.log(result)
+           if(!result.user.emailVerified){
+            // setUser(null);
+            return alert('not varifid your email')
+           }
             navigate(location.state || '/')
         })
         .catch(error =>{
             console.log(error)
         })
 
+    }
+
+    const handlePassword = () =>{
+        const email = emailRef.current.value;
+        forgotPassword(email)
+        .then(() =>{
+            console.log('forgote password')
+        })
+        .catch(error =>{
+            console.log(error)
+        })
     }
 
     
@@ -34,10 +49,10 @@ const Login = () => {
                 <div className="card-body">
                     <form onSubmit={handleLogin} className="fieldset">
                         <label className="label">Email</label>
-                        <input type="email" name='email' required className="input" placeholder="Email" />
+                        <input type="email" ref={emailRef} name='email' required className="input" placeholder="Email" />
                         <label className="label">Password</label>
                         <input type="password" required name='password' className="input" placeholder="Password" />
-                        <div><a className="link link-hover">Forgot password?</a></div>
+                        <div><a onClick={handlePassword} className="link link-hover">Forgot password?</a></div>
 
                         <button type='submit' className="btn btn-neutral mt-4">Login</button>
 

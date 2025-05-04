@@ -6,9 +6,12 @@ const LoginWhit = () => {
     const handleGoogle = () =>{
         signInWithGoogle()
         .then(result =>{
-            console.log(result)
+            // console.log(result)
             console.log(result.user)
-            setUser(result.user)
+            // setUser(result.user)
+            // if(!result.user.emailVerified){
+            //     return alert('email not verified')
+            // }
         })
         .catch(error=>{
             console.log(error)

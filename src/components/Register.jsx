@@ -6,7 +6,7 @@ import { AuthContext } from '../Provider/AuthContext';
 const Register = () => {
 
     const [errorMessage, setErrorMassage] = useState('');
-    const {register, updateUserProfile, setUser} = use(AuthContext);
+    const {register, updateUserProfile, setUser, verification} = use(AuthContext);
     const navigate = useNavigate()
     const handleRegister = (e) =>{
         e.preventDefault();
@@ -14,12 +14,19 @@ const Register = () => {
         const password = e.target.password.value;
         const name = e.target.name.value;
         const photo = e.target.photo.value;
-        console.log(name, photo)
+        // console.log(name, photo)
 
         // register
         register(email, password)
         .then(result =>{
-            console.log(result)
+            // console.log(result)
+            // verification
+            verification()
+            .then(() =>{
+                console.log('verification email')
+            })
+
+
             // update user profile
             updateUserProfile({displayName: name, photoURL: photo} )
             .then(() =>{
